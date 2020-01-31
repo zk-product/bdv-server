@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.piesat.biserver.dao.APIManagerMapper" >
+  <resultMap id="BaseResultMap" type="cn.piesat.biserver.entity.APIManagerEntity" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="api_name" property="apiName" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="request_type" property="requestType" jdbcType="VARCHAR" />
+    <result column="authentication" property="authentication" jdbcType="INTEGER" />
+    <result column="token_key" property="tokenKey" jdbcType="VARCHAR" />
+    <result column="token_value" property="tokenValue" jdbcType="VARCHAR" />
+    <result column="header" property="header" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="BaseResultMapAndParams" type="cn.piesat.biserver.entity.APIManagerEntity" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="api_name" property="apiName" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="type_id" property="typeId" jdbcType="INTEGER" />
+    <result column="request_type" property="requestType" jdbcType="VARCHAR" />
+    <result column="authentication" property="authentication" jdbcType="INTEGER" />
+    <result column="token_key" property="tokenKey" jdbcType="VARCHAR" />
+    <result column="token_value" property="tokenValue" jdbcType="VARCHAR" />
+    <result column="header" property="header" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <collection property="apiParamsEntity" ofType="map" select="queryAPIParams" column="id">
+    </collection>
+  </resultMap>
+
+  <resultMap id="BaseParamResultMap" type="cn.piesat.biserver.entity.APIParamsEntity" >
+    <id column="id" property="paramId" jdbcType="VARCHAR" />
+    <result column="api_id" property="apiId" jdbcType="VARCHAR" />
+    <result column="api_param" property="apiParam" jdbcType="VARCHAR" />
+    <result column="param_alias" property="paramAlias" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, api_name, url, type_id, request_type, authentication, token_key, token_value, header, update_time
+  </sql>
+  <sql id="Base_params_Column_List" >
+    id, api_id, api_param, param_alias
+  </sql>
+  <select id="queryAPIByPaging" parameterType="cn.piesat.biserver.entity.APIManagerEntity" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_api_manager
+    where 1 = 1
+    <if test="url != null" >
+      and url like concat('%', #{url,jdbcType=VARCHAR}, '%')
+    </if>
+    <if test="apiName != null" >
+      and api_name like concat('%', #{apiName,jdbcType=VARCHAR}, '%')
+    </if>
+    <if test="typeId != null" >
+      and type_id = #{typeId,jdbcType=INTEGER}
+    </if>
+    <if test="authentication != null" >
+      and authentication = #{authentication,jdbcType=INTEGER}
+    </if>
+  </select>
+
+  <select id="queryAllAPI" resultMap="BaseResultMapAndParams">
+    select
+    <include refid="Base_Column_List"/>
+    from t_api_manager
+  </select>
+
+  <select id="queryAPIById" resultMap="BaseResultMapAndParams" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List"/>
+    from t_api_manager
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryAPIParams" resultMap="BaseParamResultMap">
+    select
+    <include refid="Base_params_Column_List" />
+    from t_api_params_manager
+    where api_id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteAPIById" parameterType="java.lang.String" >
+    delete from t_api_manager
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.piesat.biserver.entity.APIManagerEntity" >
+    <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+        select replace(uuid(),"-","")
+    </selectKey>
+    insert into t_api_manager
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null and id != ''">
+        id,
+      </if>
+      <if test="apiName != null and apiName != ''">
+        api_name,
+      </if>
+      <if test="url != null and url != ''">
+        url,
+      </if>
+      <if test="typeId != null">
+        type_id,
+      </if>
+      <if test="requestType != null and requestType != ''">
+        request_type,
+      </if>
+      <if test="authentication != null and authentication != ''">
+        authentication,
+      </if>
+      <if test="tokenKey != null and tokenKey != ''">
+        token_key,
+      </if>
+      <if test="tokenValue != null and tokenValue != ''">
+        token_value,
+      </if>
+      <if test="header != null">
+        header,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null and id != ''">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="apiName != null and apiName != ''">
+        #{apiName,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null and url != ''">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null">
+        #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="requestType != null and requestType != ''">
+        #{requestType,jdbcType=VARCHAR},
+      </if>
+      <if test="authentication != null and authentication != ''">
+        #{authentication,jdbcType=INTEGER},
+      </if>
+      <if test="tokenKey != null and tokenKey != ''">
+        #{tokenKey,jdbcType=VARCHAR},
+      </if>
+      <if test="tokenValue != null and tokenValue != ''">
+        #{tokenValue,jdbcType=VARCHAR},
+      </if>
+      <if test="header != null">
+        #{header,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateAPIById" parameterType="cn.piesat.biserver.entity.APIManagerEntity" >
+    update t_api_manager
+    <set >
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="apiName != null" >
+        API_name = #{apiName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        type_id = #{typeId,jdbcType=INTEGER},
+      </if>
+      <if test="requestType != null" >
+        request_type = #{requestType,jdbcType=VARCHAR},
+      </if>
+      <if test="authentication != null" >
+        authentication = #{authentication,jdbcType=INTEGER},
+      </if>
+      <if test="tokenKey != null" >
+        token_key = #{tokenKey,jdbcType=VARCHAR},
+      </if>
+      <if test="tokenValue != null" >
+        token_value = #{tokenValue,jdbcType=VARCHAR},
+      </if>
+      <if test="header != null" >
+        header = #{header,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

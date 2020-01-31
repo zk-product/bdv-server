@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.piesat.biserver.dao.AssemblyRoutlineMapper" >
+  <resultMap id="BaseResultMap" type="cn.piesat.biserver.entity.assembly.AssemblyRoutlineEntity" >
+    <id column="id" property="dataId" jdbcType="VARCHAR"/>
+    <result column="assembly_id" property="assemblyId" jdbcType="VARCHAR" />
+    <result column="data_type" property="dataType" jdbcType="INTEGER" />
+    <result column="data_legend" property="dataLegend" jdbcType="VARCHAR" />
+    <result column="assembly_data" property="assemblyData" jdbcType="LONGVARCHAR" />
+    <result column="x_mapping" property="xMapping" jdbcType="VARCHAR" />
+    <result column="y_mapping" property="yMapping" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="BaseSuperResultMap" type="cn.piesat.biserver.entity.AssemblyEntity" >
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="template_id" property="templateId" jdbcType="VARCHAR" />
+    <result column="assembly_title" property="assemblyTitle" jdbcType="VARCHAR" />
+    <result column="assembly_name" property="assemblyName" jdbcType="VARCHAR" />
+    <result column="assembly_type" property="assemblyType" jdbcType="VARCHAR" />
+    <result column="data_type" property="dataType" jdbcType="INTEGER" />
+    <result column="degree" property="degree" jdbcType="INTEGER" />
+    <result column="x" property="x" jdbcType="INTEGER" />
+    <result column="y" property="y" jdbcType="INTEGER" />
+    <result column="width" property="width" jdbcType="INTEGER" />
+    <result column="height" property="height" jdbcType="INTEGER" />
+    <result column="collection" property="collection" jdbcType="INTEGER" />
+    <association property="assemblyCurrencyData" javaType="cn.piesat.biserver.entity.assembly.AssemblyRoutlineEntity">
+      <id column="data_id" property="dataId"/>
+      <result column="assembly_id" property="assemblyId" jdbcType="VARCHAR" />
+      <result column="data_type" property="dataType" jdbcType="INTEGER" />
+      <result column="data_legend" property="dataLegend" jdbcType="VARCHAR" />
+      <result column="assembly_data" property="assemblyData" jdbcType="LONGVARCHAR" />
+      <result column="x_mapping" property="xMapping" jdbcType="VARCHAR" />
+      <result column="y_mapping" property="yMapping" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, assembly_id, data_type, data_legend, assembly_data, x_mapping, y_mapping
+  </sql>
+
+  <select id="queryRoutineAssemblyData" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_assembly_data_routline
+    where assembly_id = #{assemblyId,jdbcType=VARCHAR}
+    and data_type = #{dataType,jdbcType=INTEGER}
+  </select>
+
+  <select id="queryAssemblyById" parameterType="java.lang.String" resultMap="BaseSuperResultMap">
+    select
+    t1.id, t1.template_id, t1.assembly_title, t1.assembly_name, t1.assembly_type, t1.data_type,
+    t1.degree, t1.x, t1.y, t1.width, t1.height, t1.collection,
+    t2.id as data_id, t2.data_type, t2.data_legend, t2.assembly_data, t2.x_mapping, t2.y_mapping
+    from t_assembly t1
+    left join t_assembly_data_routline t2
+    on t1.id = t2.assembly_id and t1.data_type = t2.data_type
+    where 1 = 1
+    <if test="id != null">
+      and t1.id = #{id,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <insert id="insert" parameterType="cn.piesat.biserver.entity.assembly.AssemblyRoutlineEntity" >
+    <selectKey keyProperty="dataId" resultType="java.lang.String" order="BEFORE">
+      select replace(uuid(),"-","")
+    </selectKey>
+    insert into t_assembly_data_routline
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dataId != null">
+        id,
+      </if>
+      <if test="assemblyId != null">
+        assembly_id,
+      </if>
+      <if test="dataType != null">
+        data_type,
+      </if>
+      <if test="dataLegend != null">
+        data_legend,
+      </if>
+      <if test="assemblyData != null">
+        assembly_data,
+      </if>
+      <if test="xMapping != null">
+        x_mapping,
+      </if>
+      <if test="yMapping != null">
+        y_mapping,
+      </if>
+      <if test="refresh != null">
+        refresh,
+      </if>
+      <if test="frequency != null">
+        frequency,
+      </if>
+      <if test="frequencyUnit != null">
+        frequency_unit,
+      </if>
+      <if test="loadingLimit != null">
+        loading_limit,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="assemblyId != null">
+        #{assemblyId,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null">
+        #{dataType,jdbcType=INTEGER},
+      </if>
+      <if test="dataLegend != null">
+        #{dataLegend,jdbcType=VARCHAR},
+      </if>
+      <if test="assemblyData != null">
+        #{assemblyData,jdbcType=VARCHAR},
+      </if>
+      <if test="xMapping != null">
+        #{xMapping,jdbcType=VARCHAR},
+      </if>
+      <if test="yMapping != null">
+        #{yMapping,jdbcType=VARCHAR},
+      </if>
+      <if test="refresh != null">
+        #{refresh,jdbcType=INTEGER},
+      </if>
+      <if test="frequency != null">
+        #{frequency,jdbcType=INTEGER},
+      </if>
+      <if test="frequencyUnit != null">
+        #{frequencyUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="loadingLimit != null">
+        #{loadingLimit,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updataAssemblyDataByDataId" parameterType="cn.piesat.biserver.entity.assembly.AssemblyRoutlineEntity" >
+    update t_assembly_data_routline
+    <set >
+      <if test="dataLegend != null">
+        data_legend = #{dataLegend,jdbcType=VARCHAR},
+      </if>
+      <if test="assemblyData != null" >
+        assembly_data = #{assemblyData,jdbcType=VARCHAR},
+      </if>
+      <if test="xMapping != null">
+        x_mapping = #{xMapping,jdbcType=VARCHAR},
+      </if>
+      <if test="yMapping != null">
+        y_mapping = #{yMapping,jdbcType=VARCHAR},
+      </if>
+      <if test="refresh != null">
+        refresh = #{refresh,jdbcType=INTEGER},
+      </if>
+      <if test="frequency != null">
+        frequency = #{frequency,jdbcType=INTEGER},
+      </if>
+      <if test="frequencyUnit != null">
+        frequency_unit = #{frequencyUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="loadingLimit != null">
+        loading_limit = #{loadingLimit,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{dataId,jdbcType=VARCHAR}
+  </update>
+</mapper>

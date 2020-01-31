@@ -1,0 +1,10 @@
+spring:
+  #配置静态文件访问权限
+  mvc:
+    static-path-pattern: /**
+  resources:
+    #覆盖默认配置，因此原默认相关配置也要写上，否则classpath下的静态文件无法访问。
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${web.upload-path}
+  #允许访问的文件路径
+web:
+  upload-path: /home/

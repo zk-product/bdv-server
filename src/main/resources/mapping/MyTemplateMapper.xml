@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.piesat.biserver.dao.MyTemplateMapper" >
+  <resultMap id="BaseResultMap" type="cn.piesat.biserver.entity.MyTemplateEntity" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="template_type" property="templateType" jdbcType="INTEGER" />
+    <result column="pic_addr" property="picAddr" jdbcType="VARCHAR" />
+    <result column="template_order" property="templateOrder" jdbcType="INTEGER" />
+    <result column="is_security" property="isSecurity" jdbcType="INTEGER" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="is_release" property="isRelease" jdbcType="INTEGER" />
+    <result column="width" property="width" jdbcType="VARCHAR"/>
+    <result column="height" property="height" jdbcType="VARCHAR"/>
+    <result column="background_color" property="backgroundColor" jdbcType="VARCHAR"/>
+    <result column="background_pic" property="backgroundPic" jdbcType="VARCHAR"/>
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR"/>
+    <result column="mark" property="mark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, template_type, pic_addr, template_order, is_security, password, is_release,
+    width, height, background_color, background_pic, update_time, mark
+  </sql>
+  <delete id="deleteTemplateById" parameterType="java.lang.String" >
+    delete from t_my_template
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <select id="queryTemplate" resultMap="BaseResultMap" parameterType="cn.piesat.biserver.entity.MyTemplateEntity">
+    select
+    <include refid="Base_Column_List" />
+    from t_my_template where 1 = 1
+    <if test="name != null">
+     and name like concat('%',#{name,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="templateType == 0">
+      and template_type in (0,1)
+    </if>
+    <if test="templateType != 0">
+      and template_type = #{templateType,jdbcType=INTEGER}
+    </if>
+      order by update_time desc
+  </select>
+  <select id="queryTemplateById" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from t_my_template where 1 = 1
+    and id = #{id,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="cn.piesat.biserver.entity.MyTemplateEntity" >
+    <selectKey resultType="java.lang.String" keyProperty="id" order="BEFORE">
+      select replace(uuid(),"-","")
+    </selectKey>
+    insert into t_my_template
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="templateType != null">
+        template_type,
+      </if>
+      <if test="picAddr != null">
+        pic_addr,
+      </if>
+      <if test="templateOrder != null">
+        template_order,
+      </if>
+      <if test="isSecurity != null">
+        is_security,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="isRelease != null">
+        is_release,
+      </if>
+      <if test="width != null">
+        width,
+      </if>
+      <if test="height != null">
+        height,
+      </if>
+      <if test="backgroundColor != null">
+        background_color,
+      </if>
+      <if test="backgroundPic != null">
+        background_pic,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="templateType != null">
+        #{templateType,jdbcType=VARCHAR},
+      </if>
+      <if test="picAddr != null">
+        #{picAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="templateOrder != null">
+        #{templateOrder,jdbcType=INTEGER},
+      </if>
+      <if test="isSecurity != null">
+        #{isSecurity,jdbcType=INTEGER},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="isRelease != null">
+        #{isRelease,jdbcType=INTEGER},
+      </if>
+      <if test="width != null">
+        #{width,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=VARCHAR},
+      </if>
+      <if test="backgroundColor != null">
+        #{backgroundColor,jdbcType=VARCHAR},
+      </if>
+      <if test="backgroundPic != null">
+        #{backgroundPic,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateTemplateById" parameterType="cn.piesat.biserver.entity.MyTemplateEntity" >
+    update t_my_template
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="templateType != null" >
+        template_type = #{templateType,jdbcType=INTEGER},
+      </if>
+      <if test="picAddr != null" >
+        pic_addr = #{picAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="templateOrder != null" >
+        template_order = #{templateOrder,jdbcType=INTEGER},
+      </if>
+      <if test="isSecurity != null" >
+        is_security = #{isSecurity,jdbcType=INTEGER},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="isRelease != null" >
+        is_release = #{isRelease,jdbcType=INTEGER},
+      </if>
+      <if test="width != null">
+        width = #{width,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null">
+        height = #{height,jdbcType=VARCHAR},
+      </if>
+      <if test="backgroundColor != null">
+        background_color = #{backgroundColor,jdbcType=VARCHAR},
+      </if>
+      <if test="backgroundPic != null">
+        background_pic = #{backgroundPic,jdbcType=VARCHAR},
+      </if>
+      <if test="mark != null" >
+        mark = #{mark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

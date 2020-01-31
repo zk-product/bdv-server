@@ -1,0 +1,20 @@
+<config>
+    <input>
+        <jar in="bi-server-0.0.1-SNAPSHOT.jar" out="obf-bi-server-0.0.1-SNAPSHOT.jar"/>
+    </input>
+
+    <keep-names>
+        <class access="protected+">
+            <field access="protected+"/>
+            <method access="protected+"/>
+        </class>
+    </keep-names>
+    <ignore-classes>
+        <class template="class cn.piesat.biserver.BiServerApplication" />
+        <class template="class cn.piesat.biserver.controller.*" />
+        <class template="class cn.piesat.biserver.entity.*" />
+        <class template="class cn.piesat.biserver.util.*" />
+        <class template="class cn.piesat.biserver.common.*" />
+    </ignore-classes>
+    <property name="log-file" value="log.xml"/>
+</config>

@@ -1,0 +1,23 @@
+
+index-collection:
+  maps:
+    # 常规组件图
+    "01":
+      id: 1
+      assemblyName: "常规组件图"
+      "className": "cn.piesat.biserver.service.impl.AssemblyRoutlineImpl"
+    #地图
+    "02":
+      id: 2
+      assemblyName: "地图"
+      "className": "cn.piesat.biserver.service.impl.AssemblyMAPImpl"
+    #文本
+    "03":
+      id: 3
+      assemblyName: "文本"
+      "className": "cn.piesat.biserver.service.impl.AssemblyTextImpl"
+    #图片
+    "05":
+      id: 5
+      assemblyName: "图片"
+      "className": "cn.piesat.biserver.service.impl.AssemblyPicImpl"

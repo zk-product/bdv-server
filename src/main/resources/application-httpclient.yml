@@ -1,0 +1,20 @@
+httpclient-pool:
+  # 最大连接数
+  maxTotalConnect: 1000
+  # 同路由并发数
+  maxConnectPerRoute: 100
+  # 连接超时时间(毫秒)
+  connectTimeOut: 2000
+  # 读取数据包响应间隔超时时间，相邻两个响应之间最大间隔时间（毫秒）
+  readTimeOut: 5000
+  # 取连接时间（毫秒）
+  connectionRequestTimout: 200
+  # 重试次数
+  retryTimes: 5
+  # 编码
+  charset: UTF-8
+  # 长连接保持时间（秒）
+  keepAliveTime: 10
+  # 针对不同网址，设置长连接不同存活时间，不宜过大（秒）
+  keepAliveTargetHost:
+    "localhost:8080": 5

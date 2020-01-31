@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.piesat.biserver.dao.DictionaryDataMapper" >
+  <resultMap id="BaseResultMap" type="cn.piesat.biserver.entity.dictionary.DictionaryDataEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="dic_id" property="dicId" jdbcType="INTEGER" />
+    <result column="dic_data_val" property="dicDataVal" jdbcType="VARCHAR" />
+    <result column="dic_data_name" property="dicDataName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, dic_id, dic_data_val, dic_data_name
+  </sql>
+  <select id="queryDic" resultMap="BaseResultMap" parameterType="cn.piesat.biserver.entity.dictionary.DictionaryDataEntity" >
+    select
+    <include refid="Base_Column_List"/>
+    from t_dictionary_data
+    where 1 = 1
+    <if test="dicId != null">
+      and dic_id = #{dicId,jdbcType=INTEGER}
+    </if>
+    <if test="dicDataVal != null">
+      and dic_data_val = #{dicDataVal,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_dictionary_data
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.piesat.biserver.entity.dictionary.DictionaryDataEntity" >
+    insert into t_dictionary_data (id, dic_id, dic_data_val, 
+      dic_data_name)
+    values (#{id,jdbcType=INTEGER}, #{dicId,jdbcType=INTEGER}, #{dicDataVal,jdbcType=VARCHAR}, 
+      #{dicDataName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.piesat.biserver.entity.dictionary.DictionaryDataEntity" >
+    insert into t_dictionary_data
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="dicId != null" >
+        dic_id,
+      </if>
+      <if test="dicDataVal != null" >
+        dic_data_val,
+      </if>
+      <if test="dicDataName != null" >
+        dic_data_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dicId != null" >
+        #{dicId,jdbcType=INTEGER},
+      </if>
+      <if test="dicDataVal != null" >
+        #{dicDataVal,jdbcType=VARCHAR},
+      </if>
+      <if test="dicDataName != null" >
+        #{dicDataName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.piesat.biserver.entity.dictionary.DictionaryDataEntity" >
+    update t_dictionary_data
+    <set >
+      <if test="dicId != null" >
+        dic_id = #{dicId,jdbcType=INTEGER},
+      </if>
+      <if test="dicDataVal != null" >
+        dic_data_val = #{dicDataVal,jdbcType=VARCHAR},
+      </if>
+      <if test="dicDataName != null" >
+        dic_data_name = #{dicDataName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.piesat.biserver.entity.dictionary.DictionaryDataEntity" >
+    update t_dictionary_data
+    set dic_id = #{dicId,jdbcType=INTEGER},
+      dic_data_val = #{dicDataVal,jdbcType=VARCHAR},
+      dic_data_name = #{dicDataName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

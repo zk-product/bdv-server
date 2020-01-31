@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.piesat.biserver.dao.StatisticsAnalysisMapper" >
+  <resultMap id="BigScreenResultMap" type="cn.piesat.biserver.entity.statistics.BigScreenEntity" >
+    <result column="release_num" property="releaseNum" jdbcType="INTEGER" />
+    <result column="is_release" property="releaseStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="templateResultMap" type="cn.piesat.biserver.entity.statistics.TemplateEntity">
+    <result column="template_num" property="templateNum" jdbcType="INTEGER"/>
+    <result column="template_type" property="templateType" jdbcType="INTEGER"/>
+  </resultMap>
+  <resultMap id="myAssemblyResultMap" type="cn.piesat.biserver.entity.statistics.MyAssemblyEntity">
+    <result column="assembly_num" property="assemblyNum" jdbcType="INTEGER"/>
+    <result column="assembly_type" property="assemblyType" jdbcType="VARCHAR"/>
+  </resultMap>
+
+  <select id="bigScreenStatistic" resultMap="BigScreenResultMap">
+      select t1.dic_data_val as is_release,ifnull(t2.release_num,0) as release_num  from
+        (select dic_data_val,dic_data_name from t_dictionary_data where dic_id = 2) t1
+      left join
+        (select count(1) as release_num, is_release from t_my_template where template_type != 2 group by is_release) t2
+      on t1.dic_data_val = t2.is_release
+  </select>
+  <select id="templateStatistic" resultMap="templateResultMap">
+      select t1.dic_data_val as template_type,ifnull(t2.template_num,0) as template_num  from
+        (select dic_data_val,dic_data_name from t_dictionary_data where dic_id = 4) t1
+      left join
+        (select count(1) as template_num, template_type from t_my_template where template_type != 0 group by template_type) t2
+      on t1.dic_data_val = t2.template_type
+      where t1.dic_data_val != 0
+  </select>
+  <select id="myAssemblyStatistic" resultMap="myAssemblyResultMap">
+    select t1.dic_data_val as assembly_type,ifnull(t2.assembly_num,0) as assembly_num  from
+      (select substr(dic_data_val,1,2) as dic_data_val,dic_data_name from t_dictionary_data where dic_id = 1 group by substr(dic_data_val,1,2)) t1
+    left join
+      (select count(1) assembly_num,substr(assembly_type,1,2) as assembly_type,collection  from t_assembly where collection = 1 group by substr(assembly_type,1,2)) t2
+    on t1.dic_data_val = t2.assembly_type
+  </select>
+</mapper>

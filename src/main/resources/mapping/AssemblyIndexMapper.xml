@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.piesat.biserver.dao.AssemblyIndexMapper" >
+  <resultMap id="BaseResultMap" type="cn.piesat.biserver.entity.AssemblyIndexEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="assembly_name" property="assemblyName" jdbcType="VARCHAR" />
+    <result column="assembly_type" property="assemblyType" jdbcType="VARCHAR" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="method_name" property="methodName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, assembly_name, assembly_type, class_name, method_name
+  </sql>
+  <select id="queryAssemblyIndexByAssemblyType" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_assembly_index
+    where assembly_type = #{assemblyType,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_assembly_index
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.piesat.biserver.entity.AssemblyIndexEntity" >
+    insert into t_assembly_index (id, assembly_name, assembly_type, 
+      class_name, method_name)
+    values (#{id,jdbcType=INTEGER}, #{assemblyName,jdbcType=VARCHAR}, #{assemblyType,jdbcType=VARCHAR}, 
+      #{className,jdbcType=VARCHAR}, #{methodName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.piesat.biserver.entity.AssemblyIndexEntity" >
+    insert into t_assembly_index
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="assemblyName != null" >
+        assembly_name,
+      </if>
+      <if test="assemblyType != null" >
+        assembly_type,
+      </if>
+      <if test="className != null" >
+        class_name,
+      </if>
+      <if test="methodName != null" >
+        method_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="assemblyName != null" >
+        #{assemblyName,jdbcType=VARCHAR},
+      </if>
+      <if test="assemblyType != null" >
+        #{assemblyType,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="methodName != null" >
+        #{methodName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.piesat.biserver.entity.AssemblyIndexEntity" >
+    update t_assembly_index
+    <set >
+      <if test="assemblyName != null" >
+        assembly_name = #{assemblyName,jdbcType=VARCHAR},
+      </if>
+      <if test="assemblyType != null" >
+        assembly_type = #{assemblyType,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        class_name = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="methodName != null" >
+        method_name = #{methodName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.piesat.biserver.entity.AssemblyIndexEntity" >
+    update t_assembly_index
+    set assembly_name = #{assemblyName,jdbcType=VARCHAR},
+      assembly_type = #{assemblyType,jdbcType=VARCHAR},
+      class_name = #{className,jdbcType=VARCHAR},
+      method_name = #{methodName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
