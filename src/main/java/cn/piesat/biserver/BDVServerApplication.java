@@ -12,10 +12,10 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @SpringBootApplication
 @MapperScan("cn.piesat.biserver.dao")
 @EnableAspectJAutoProxy(exposeProxy = true)
-public class BiServerApplication {
+public class BDVServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BiServerApplication.class, args);
+        SpringApplication.run(BDVServerApplication.class, args);
     }
 
 }
