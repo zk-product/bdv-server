@@ -141,16 +141,6 @@ public class AssemblyImpl implements IAssembly {
     }
 
     @Override
-    public List<AssemblyEntity> queryAssembly(AssemblyEntity entity) {
-        List<AssemblyEntity> assemblyEntities = mapper.queryAssembly(entity);
-        for (AssemblyEntity assemblyEntity : assemblyEntities) {
-            AssemblyDataEntity dataEntity = assemblyEntity.getAssemblyDataObj();
-            dealAssemblyAPIData(dataEntity);
-        }
-        return assemblyEntities;
-    }
-
-    @Override
     public List<AssemblyEntity> queryAssemblys(String templateId) {
         List<AssemblyEntity> assemblyEntities = mapper.queryAssemblyByScreenId(templateId);
         for (AssemblyEntity assemblyEntity : assemblyEntities) {
@@ -184,67 +174,6 @@ public class AssemblyImpl implements IAssembly {
             }
         }
         return assemblyEntities;
-    }
-
-    @Override
-    public AssemblyDataEntity queryAssemblyData(AssemblyDataEntity entity) {
-        AssemblyDataEntity dataEntity = dataMapper.queryAssemblyData(entity);
-        return dealAssemblyAPIData(dataEntity);
-    }
-
-    /**
-     * 处理API数据，根据x，y映射确定字段选中状态
-     *
-     * @param dataEntity
-     * @return
-     */
-    @Deprecated
-    public AssemblyDataEntity dealAssemblyAPIData(AssemblyDataEntity dataEntity) {
-        // 判断是否为API数据，因为此方法只适合API处理
-        if (dataEntity != null && dataEntity.getDataType() == DataTypeEnum.API.getIndex().intValue()) {
-            String xMapping = dataEntity.getxMapping();
-            String yMapping = dataEntity.getyMapping();
-            /**
-             *  定义X,Y映射字段集合
-             */
-            List<String> xMappingList = new ArrayList<>();
-            List<String> yMappingList = new ArrayList<>();
-            if (xMapping != null && !"".equals(xMapping)) {
-                // 处理x映射集合
-                xMappingList = AnalysisAssemblyDataUtil.dealArray(xMapping);
-            }
-            if (yMapping != null && !"".equals(yMapping)) {
-                // 处理y映射集合
-                yMappingList = AnalysisAssemblyDataUtil.dealArray(yMapping);
-            }
-
-            List<String> mappingList = new ArrayList<String>();
-            /**
-             * 无重复合并集合
-             */
-            xMappingList.removeAll(yMappingList);
-            mappingList.addAll(xMappingList);
-            mappingList.addAll(yMappingList);
-
-            String assemblyData = dataEntity.getAssemblyData();
-            List<String> outParams = AnalysisAssemblyDataUtil.extractJSONField(assemblyData, "outParams", new ArrayList<String>());
-            List<Map<String, Object>> mapList = new ArrayList<>();
-            for (String outParam : outParams) {
-                Map<String, Object> map = new HashMap<>();
-                map.put("field", outParam);
-                for (String param : mappingList) {
-                    if (outParam.equals(param)) {
-                        map.put("selected", true);
-                        break;
-                    }
-                    map.put("selected", false);
-                }
-                mapList.add(map);
-            }
-            String dealAssemblyData = AnalysisAssemblyDataUtil.replaceJSONField(assemblyData, "outParams", JSON.toJSONString(mapList));
-            dataEntity.setAssemblyData(dealAssemblyData);
-        }
-        return dataEntity;
     }
 
     @Override

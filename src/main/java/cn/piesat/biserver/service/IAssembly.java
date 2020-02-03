@@ -38,30 +38,11 @@ public interface IAssembly {
     boolean addAssemblyData(AssemblyDataEntity entity);
 
     /**
-     * 根据模板id或组件id查询组件
-     * @param entity
-     * @return
-     * @see #queryAssemblys(String)
-     * @see IAssemblyCurrency#queryAssemblyById(String)
-     */
-    @Deprecated
-    List<AssemblyEntity> queryAssembly(AssemblyEntity entity);
-
-    /**
      * 根据模板id查询组件（优化设计）
      * @param templateId
      * @return
      */
     List<AssemblyEntity> queryAssemblys(String templateId);
-
-    /**
-     * 根据数据ID/组件id/数据类型查询组件数据
-     * @param entity
-     * @return
-     * @see IAssemblyCurrency#queryAssemblyData(String, Integer)
-     */
-    @Deprecated
-    AssemblyDataEntity queryAssemblyData(AssemblyDataEntity entity);
 
 
     /**

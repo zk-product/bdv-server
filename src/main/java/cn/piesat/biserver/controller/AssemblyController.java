@@ -40,17 +40,6 @@ public class AssemblyController {
         }
         return response;
     }
-    @RequestMapping("/queryAssembly")
-    public Response queryAssembly(@RequestBody AssemblyEntity entity) {
-        Response response = Response.getInstance();
-        List<AssemblyEntity> list = iAssembly.queryAssembly(entity);
-        if (list != null) {
-            response.setOk(0, null, "查询成功！", list);
-        } else {
-            response.setError(10000, null, "未查询到组件信息！");
-        }
-        return response;
-    }
 
     @RequestMapping("/queryAssemblys")
     public Response queryAssemblys(@RequestBody Map<String, String> map) {
@@ -64,17 +53,6 @@ public class AssemblyController {
         return response;
     }
 
-    @RequestMapping("/queryAssemblyData")
-    public Response queryAssemblyData(@RequestBody AssemblyDataEntity entity) {
-        Response response = Response.getInstance();
-        AssemblyDataEntity dataEntity = iAssembly.queryAssemblyData(entity);
-        if (dataEntity != null) {
-            response.setOk(0, null, "查询组件数据成功！", dataEntity);
-        } else {
-            response.setError(10000, null, "未查询到组件数据！");
-        }
-        return response;
-    }
     @RequestMapping("/updateByPrimaryKey")
     public Response updateByPrimaryKey(@RequestBody AssemblyDataEntity entity) {
         Response response = Response.getInstance();
