@@ -11,17 +11,9 @@ import java.util.List;
  * @date 2019/8/29 14:31
  */
 public interface IAssembly {
-    /**
-     * 添加组件
-     * @param assemblyEntity
-     * @return 组件id
-     * @see  #addCurrencyAssembly(AssemblyEntity)
-     */
-    @Deprecated
-    AssemblyEntity addAssembly(AssemblyEntity assemblyEntity);
 
     /**
-     * 添加通用组件
+     * 添加组件通用部分
      * @param assemblyEntity
      * @return
      */

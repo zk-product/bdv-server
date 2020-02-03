@@ -44,35 +44,6 @@ public class AssemblyImpl implements IAssembly {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public AssemblyEntity addAssembly(AssemblyEntity assemblyEntity) {
-        //是否根据收藏组件添加新组件标识
-        boolean flag = false;
-        if (assemblyEntity.getCollection() == 1) {
-            flag = true;
-        }
-        /**
-         * 添加组件时重置为0，防止根据收藏组件添加时，把收藏状态一同添加到组件
-         */
-        assemblyEntity.setCollection(0);
-        int insert = mapper.insert(assemblyEntity);
-        if (insert > 0) {
-            AssemblyDataEntity dataEntity = null;
-            if (flag) {
-                dataEntity = addAssemblyDataByCollection(assemblyEntity.getId(), assemblyEntity.getAssemblyDataObj());
-            } else {
-                dataEntity = addAssemblyData(assemblyEntity.getId(), assemblyEntity.getAssemblyType(), assemblyEntity.getDataType());
-            }
-
-            if (dataEntity != null) {
-                assemblyEntity.setAssemblyDataObj(dataEntity);
-                return assemblyEntity;
-            }
-        }
-        return null;
-    }
-
-    @Transactional(rollbackFor = Exception.class)
-    @Override
     public AssemblyEntity addCurrencyAssembly(AssemblyEntity assemblyEntity) {
         //是否根据收藏组件添加新组件标识
         boolean flag = false;
@@ -95,9 +66,10 @@ public class AssemblyImpl implements IAssembly {
                 currencyEntity = ((IAssemblyCurrency) AopContext.currentProxy())
                         .addCurrencyAssemblyData(assemblyId, assemblyType, dataType);
             }
+            // 如果
             if (currencyEntity == null) {
                 currencyEntity = ((IAssemblyCurrency) AopContext.currentProxy())
-                        .addCurrencyAssemblyDefaultData(assemblyEntity.getId(), assemblyEntity.getAssemblyCurrencyData());
+                        .addCurrencyAssemblyDefaultData(assemblyId, assemblyEntity.getAssemblyCurrencyData());
             }
             assemblyEntity.setAssemblyCurrencyData(currencyEntity);
             return assemblyEntity;
