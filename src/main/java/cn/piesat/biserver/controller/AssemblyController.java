@@ -53,18 +53,6 @@ public class AssemblyController {
         return response;
     }
 
-    @RequestMapping("/updateByPrimaryKey")
-    public Response updateByPrimaryKey(@RequestBody AssemblyDataEntity entity) {
-        Response response = Response.getInstance();
-        boolean b = iAssembly.updateByPrimaryKey(entity);
-        if (b) {
-            response.setOk(0, null, "修改成功！", b);
-        } else {
-            response.setError(1000, null, "修改失败！");
-        }
-        return response;
-    }
-
     @RequestMapping("/updateAssemblyByIdSelective")
     public Response updateAssemblyByIdSelective(@RequestBody AssemblyEntity entity) {
         Response response = Response.getInstance();

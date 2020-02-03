@@ -177,15 +177,6 @@ public class AssemblyImpl implements IAssembly {
     }
 
     @Override
-    public boolean updateByPrimaryKey(AssemblyDataEntity entity) {
-        int i = dataMapper.updateByPrimaryKey(entity);
-        if (i > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
     public boolean updateAssemblyByIdSelective(AssemblyEntity entity) {
         int i = mapper.updateByPrimaryKeySelective(entity);
         if (i > 0) {

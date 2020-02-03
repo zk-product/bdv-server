@@ -46,15 +46,6 @@ public interface IAssembly {
 
 
     /**
-     * 根据主键修改数据
-     * @param entity
-     * @return
-     * @see IAssemblyCurrency#updataAssemblyDataById(AssemblyCurrencyEntity)
-     */
-    @Deprecated
-    boolean updateByPrimaryKey(AssemblyDataEntity entity);
-
-    /**
      * 根据主键修改部分组件属性
      * @param entity
      * @return
