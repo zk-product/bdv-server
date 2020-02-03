@@ -29,20 +29,6 @@ public class AssemblyController {
     @Qualifier("assemblyImpl")
     private IAssembly iAssembly;
 
-    @RequestMapping("/addAssembly")
-    public Response addAssembly(@RequestBody @Validated AssemblyEntity assemblyEntity, BindingResult bindingResult) {
-        Response response = Response.getInstance();
-        assemblyEntity.setDegree(0);
-        assemblyEntity.setCollection(0);
-        assemblyEntity.setAssemblyTitle("自定义标题");
-        AssemblyEntity entity = iAssembly.addAssembly(assemblyEntity);
-        if (entity != null) {
-            response.setOk(0, null, "添加成功！", entity);
-        } else {
-            response.setError(1000, null, "添加失败！");
-        }
-        return response;
-    }
     @RequestMapping("/addAssemblyData")
     public Response addAssemblyData(@RequestBody AssemblyDataEntity entity) {
         Response response = Response.getInstance();
