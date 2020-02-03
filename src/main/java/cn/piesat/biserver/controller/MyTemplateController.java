@@ -1,7 +1,7 @@
 package cn.piesat.biserver.controller;
 
 import cn.piesat.biserver.common.Response;
-import cn.piesat.biserver.common.UploadFile;
+import cn.piesat.biserver.common.PathConfig;
 import cn.piesat.biserver.entity.MyTemplateEntity;
 import cn.piesat.biserver.service.IMyTemplate;
 import com.github.pagehelper.PageInfo;
@@ -26,8 +26,6 @@ public class MyTemplateController {
 
     @Autowired
     private IMyTemplate iMyTemplate;
-    @Autowired
-    private UploadFile uploadFile;
 
     @RequestMapping("/queryTemplate")
     public Response queryTemplate(@RequestBody MyTemplateEntity myTemplateEntity) {
