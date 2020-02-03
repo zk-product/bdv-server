@@ -1,11 +1,12 @@
 package cn.piesat.biserver.controller;
 
 import cn.piesat.biserver.common.Response;
-import cn.piesat.biserver.common.UploadFile;
 import cn.piesat.biserver.constant.StatisticsConstant;
 import cn.piesat.biserver.entity.CsvManagerEntity;
 import cn.piesat.biserver.service.ICsvManager;
+import cn.piesat.biserver.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,21 +24,21 @@ import java.util.Map;
  * @date 2019/11/19 15:41
  */
 @RestController
-@RequestMapping("/csvManager")
+@RequestMapping("/CSVManager")
 public class CsvManagerController {
 
     @Autowired
     private ICsvManager iCsvManager;
-    @Autowired
-    private UploadFile uploadFile;
+    @Value("${web.csvPath}")
+    private String csvPath;
 
-    @RequestMapping("/uploadCsv")
+    @RequestMapping("/uploadCSV")
     public Response uploadCover(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
         Response response = Response.getInstance();
         String fileName = file.getOriginalFilename();
-        String filePath = StatisticsConstant.CSV_PATH + fileName;
+        String filePath = csvPath + StatisticsConstant.CSV_PATH + fileName;
         try {
-            uploadFile.writeFile(filePath, file.getBytes());
+            FileUtil.writeFile(filePath, file.getBytes(), false);
             CsvManagerEntity entity = new CsvManagerEntity();
             entity.setName(fileName);
             entity.setPath(filePath);
