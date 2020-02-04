@@ -5,7 +5,7 @@ server:
   port: 8080
 spring:
   profiles:
-    active: data, upload, assembly-index, httpclient
+    active: data, file, assembly-index, httpclient
   datasource:
     url: jdbc:mysql://localhost:3306/bidb?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&autoReconnect=true&failOverReadOnly=false
     username: root
