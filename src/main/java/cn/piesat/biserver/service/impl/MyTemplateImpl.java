@@ -1,6 +1,6 @@
 package cn.piesat.biserver.service.impl;
 
-import cn.piesat.biserver.common.UploadFile;
+import cn.piesat.biserver.common.PathConfig;
 import cn.piesat.biserver.constant.StatisticsConstant;
 import cn.piesat.biserver.dao.AssemblyDataMapper;
 import cn.piesat.biserver.dao.AssemblyMapper;
@@ -9,6 +9,7 @@ import cn.piesat.biserver.entity.AssemblyDataEntity;
 import cn.piesat.biserver.entity.AssemblyEntity;
 import cn.piesat.biserver.entity.MyTemplateEntity;
 import cn.piesat.biserver.service.IMyTemplate;
+import cn.piesat.biserver.util.FileUtil;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,9 +34,6 @@ public class MyTemplateImpl implements IMyTemplate {
 
     @Autowired
     private AssemblyDataMapper assemblyDataMapper;
-
-    @Autowired
-    private UploadFile uploadFile;
 
     @Override
     public List<MyTemplateEntity> queryTemplate(MyTemplateEntity myTemplateEntity) {
@@ -129,7 +127,7 @@ public class MyTemplateImpl implements IMyTemplate {
         String suffix = fileName.substring(fileName.lastIndexOf("."));
         String filePath = StatisticsConstant.SCREEN_COVER_PATH  + id + suffix;
         try {
-            uploadFile.writeFile(filePath, file.getBytes());
+            FileUtil.writeFile(filePath, file.getBytes(), true);
             boolean b = updateScreenPicaddr(id, filePath);
             if (!b) {
                 return "";
@@ -152,7 +150,7 @@ public class MyTemplateImpl implements IMyTemplate {
         //与前端约定上传图片格式为.png
         String filePath = StatisticsConstant.SCREEN_COVER_PATH  + id + ".png";
         //将图片保存至磁盘
-        uploadFile.writeFile(filePath, decodeFile);
+        FileUtil.writeFile(filePath, decodeFile, true);
         /**
          * 修改模板封面地址
          */
@@ -196,7 +194,7 @@ public class MyTemplateImpl implements IMyTemplate {
         String suffix = fileName.substring(fileName.lastIndexOf("."));
         String filePath = StatisticsConstant.SCREEN_BACKGROUND_PATH  + id + suffix;
         try {
-            uploadFile.writeFile(filePath, file.getBytes());
+            FileUtil.writeFile(filePath, file.getBytes(), true);
             boolean b = updateScreenBackground(id, filePath);
             if (!b) {
                 return "";
