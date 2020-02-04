@@ -3,6 +3,7 @@ package cn.piesat.biserver.controller;
 import cn.piesat.biserver.common.Response;
 import cn.piesat.biserver.constant.StatisticsConstant;
 import cn.piesat.biserver.entity.CsvManagerEntity;
+import cn.piesat.biserver.enums.CsvStatusEnum;
 import cn.piesat.biserver.service.ICsvManager;
 import cn.piesat.biserver.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,7 @@ public class CsvManagerController {
             CsvManagerEntity entity = new CsvManagerEntity();
             entity.setName(fileName);
             entity.setPath(filePath);
+            entity.setIsRelease(CsvStatusEnum.NO.getKey());
             boolean b = iCsvManager.addCsvInfo(entity);
             if (b) {
                 response.setOk(0, null, "上传成功！", b);

@@ -1,8 +1,9 @@
 package cn.piesat.biserver.service.impl;
 
-import cn.piesat.biserver.common.UploadFile;
+import cn.piesat.biserver.common.PathConfig;
 import cn.piesat.biserver.dao.CsvManagerMapper;
 import cn.piesat.biserver.entity.CsvManagerEntity;
+import cn.piesat.biserver.enums.CsvStatusEnum;
 import cn.piesat.biserver.listener.NoModelDataListener;
 import cn.piesat.biserver.service.ICsvManager;
 import com.alibaba.excel.EasyExcel;
@@ -21,7 +22,7 @@ import java.util.Map;
 public class CsvManagerImpl implements ICsvManager {
 
     @Autowired
-    private UploadFile uploadFile;
+    private PathConfig pathConfig;
     @Autowired
     private CsvManagerMapper csvManagerMapper;
 
@@ -46,13 +47,19 @@ public class CsvManagerImpl implements ICsvManager {
          * 2.解析excel并返回List<Map<String, String>>
          */
         CsvManagerEntity csvManagerEntity = queryCsvById(id);
-        // 获取路径前缀
-        String prePath = uploadFile.getUploadPath().endsWith("/")
-                ? uploadFile.getUploadPath()
-                : uploadFile.getUploadPath()+ File.separator;
+        if (csvManagerEntity == null) {
+            return null;
+        }
+        String prePath = "";
+        // 如果发布，增加发布路径前缀
+        if (csvManagerEntity.getIsRelease() == CsvStatusEnum.OK.getKey()) {
+            prePath += pathConfig.getReleasePath();
+        }
+
         //获取相对路径
         String relativePath = csvManagerEntity.getPath();
         String filPath = prePath + relativePath;
+
         //解析excel
         NoModelDataListener noModelDataListener = new NoModelDataListener();
         EasyExcel.read(filPath, noModelDataListener).sheet().doRead();

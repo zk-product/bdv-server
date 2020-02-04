@@ -5,9 +5,12 @@
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="path" property="path" jdbcType="VARCHAR" />
+    <result column="is_release" property="isRelease" jdbcType="INTEGER" />
+    <result column="mark" property="mark" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, path
+    id, name, path, is_release, mark, update_time
   </sql>
   <select id="queryCsvById" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -23,9 +26,10 @@
     <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
       select replace(uuid(),"-","")
     </selectKey>
-    insert into t_csv_manager (id, name, path
+    insert into t_csv_manager (id, name, path, is_release, mark
       )
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{isRelease,jdbcType=INTEGER},
+    #{mark,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.piesat.biserver.entity.CsvManagerEntity" >

@@ -12,6 +12,12 @@ public class CsvManagerEntity {
 
     private String path;
 
+    private String mark;
+
+    private Integer isRelease;
+
+    private String updateTime;
+
     public String getId() {
         return id;
     }
@@ -34,5 +40,29 @@ public class CsvManagerEntity {
 
     public void setPath(String path) {
         this.path = path == null ? null : path.trim();
+    }
+
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
+    }
+
+    public Integer getIsRelease() {
+        return isRelease;
+    }
+
+    public void setIsRelease(Integer isRelease) {
+        this.isRelease = isRelease;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
     }
 }
