@@ -1,7 +1,7 @@
 package cn.piesat.biserver;
 
 import cn.piesat.biserver.common.ApplicationContextProvider;
-import cn.piesat.biserver.common.UploadFile;
+import cn.piesat.biserver.common.PathConfig;
 import cn.piesat.biserver.common.configuration.AssemblyIndexConfig;
 import cn.piesat.biserver.common.configuration.HttpclientParamsConfig;
 import com.alibaba.excel.EasyExcel;
@@ -11,12 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.IOException;
+import javax.annotation.PostConstruct;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Map;
 
 @RunWith(SpringRunner.class)
@@ -31,14 +28,6 @@ public class BiServerApplicationTests {
 
     }
 
-    @Autowired
-    private UploadFile uploadFile;
-    @Test
-    public void test2() throws IOException {
-        Path path = Paths.get("e:/home/1.jpg");
-        byte[] bytes = Files.readAllBytes(path);
-        uploadFile.writeFile("aa/1.jpg", bytes);
-    }
 
     @Autowired
     private HttpclientParamsConfig httpclientConfig;
@@ -86,4 +75,5 @@ public class BiServerApplicationTests {
         Map<String, Map<String, String>> maps = config.getMaps();
         System.out.println(maps.get("01001").get("className"));
     }
+
 }
