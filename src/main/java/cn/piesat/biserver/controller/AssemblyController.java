@@ -44,7 +44,7 @@ public class AssemblyController {
     @RequestMapping("/queryAssemblys")
     public Response queryAssemblys(@RequestBody Map<String, String> map) {
         Response response = Response.getInstance();
-        List<AssemblyEntity> list = iAssembly.queryAssemblys(map.get("templateId"));
+        List<AssemblyEntity> list = iAssembly.queryAssemblys(map.get("screenId"));
         if (list != null) {
             response.setOk(0, null, "查询成功！", list);
         } else {

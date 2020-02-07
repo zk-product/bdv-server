@@ -20,7 +20,7 @@ public class AssemblyEntity {
      * 模板id（外键）
      */
     @NotBlank(message = "模板id不能为空")
-    private String templateId;
+    private String screenId;
 
     /**
      * 组件标题
@@ -117,12 +117,12 @@ public class AssemblyEntity {
         this.id = id == null ? null : id.trim();
     }
 
-    public String getTemplateId() {
-        return templateId;
+    public String getScreenId() {
+        return screenId;
     }
 
-    public void setTemplateId(String templateId) {
-        this.templateId = templateId == null ? null : templateId.trim();
+    public void setScreenId(String screenId) {
+        this.screenId = screenId;
     }
 
     public String getAssemblyTitle() {
