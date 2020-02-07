@@ -11,9 +11,11 @@ import javax.validation.constraints.NotNull;
  * @date 2019/8/29 14:03
  */
 public class AssemblyEntity {
+    public interface ById{};
     /**
      * 主键id
      */
+    @NotBlank(groups = ById.class, message = "id不能为空")
     private String id;
 
     /**
