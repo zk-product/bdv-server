@@ -24,7 +24,7 @@ import java.util.Map;
 public class AssemblyMapController extends AbstractAssemblyController<AssemblyMapEntity> {
 
     @Autowired
-    @Qualifier("assemblyMAPImpl")
+    @Qualifier("assemblyMapImpl")
     private IAssemblyCurrency iAssemblyCurrency;
 
     @Override

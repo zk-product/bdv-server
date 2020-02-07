@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
  * @date 2019/8/29 14:03
  */
 public class AssemblyEntity {
-    public interface ById{};
+    public interface ById{}
     /**
      * 主键id
      */
