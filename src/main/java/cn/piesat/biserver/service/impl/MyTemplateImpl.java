@@ -87,7 +87,7 @@ public class MyTemplateImpl implements IMyTemplate {
              * 查询并添加组件
              */
             AssemblyEntity assemblyEntity = new AssemblyEntity();
-            assemblyEntity.setTemplateId(id);
+            assemblyEntity.setScreenId(id);
             List<AssemblyEntity> assemblyEntities = assemblyMapper.queryAssembly(assemblyEntity);
             if (assemblyEntities.size() == 0) {
                 return template.getId();
@@ -99,7 +99,7 @@ public class MyTemplateImpl implements IMyTemplate {
                 String newAssemblyId = UUID.randomUUID().toString().replaceAll("-", "");
                 String oldAssemblyId = entity.getId();
                 entity.setId(newAssemblyId);
-                entity.setTemplateId(template.getId());
+                entity.setScreenId(template.getId());
                 entity.setCollection(0);
 
                 assemblyIds.put(oldAssemblyId, newAssemblyId);

@@ -141,8 +141,8 @@ public class AssemblyImpl implements IAssembly {
     }
 
     @Override
-    public List<AssemblyEntity> queryAssemblys(String templateId) {
-        List<AssemblyEntity> assemblyEntities = mapper.queryAssemblyByScreenId(templateId);
+    public List<AssemblyEntity> queryAssemblys(String screenId) {
+        List<AssemblyEntity> assemblyEntities = mapper.queryAssemblyByScreenId(screenId);
         for (AssemblyEntity assemblyEntity : assemblyEntities) {
             String typePre = assemblyEntity.getAssemblyType().substring(0, 2);
             // 查询组件类型对应的查询类

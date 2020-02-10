@@ -18,6 +18,7 @@ import java.util.Map;
 
 /**
  * 组件通用管理 Controller层
+ *
  * @author zk
  * @date 2019/8/29 15:40
  */
@@ -44,7 +45,7 @@ public class AssemblyController {
     @RequestMapping("/queryAssemblys")
     public Response queryAssemblys(@RequestBody Map<String, String> map) {
         Response response = Response.getInstance();
-        List<AssemblyEntity> list = iAssembly.queryAssemblys(map.get("templateId"));
+        List<AssemblyEntity> list = iAssembly.queryAssemblys(map.get("screenId"));
         if (list != null) {
             response.setOk(0, null, "查询成功！", list);
         } else {
@@ -54,7 +55,8 @@ public class AssemblyController {
     }
 
     @RequestMapping("/updateAssemblyByIdSelective")
-    public Response updateAssemblyByIdSelective(@RequestBody AssemblyEntity entity) {
+    public Response updateAssemblyByIdSelective(@RequestBody @Validated(AssemblyEntity.ById.class) AssemblyEntity entity,
+                                                BindingResult bindingResult) {
         Response response = Response.getInstance();
         boolean b = iAssembly.updateAssemblyByIdSelective(entity);
         if (b) {
@@ -70,7 +72,7 @@ public class AssemblyController {
         Response response = Response.getInstance();
         boolean b = iAssembly.deleteAssemblyById(id);
         if (b) {
-            response.setOk(0, null, "删除组件成功！",b);
+            response.setOk(0, null, "删除组件成功！", b);
         } else {
             response.setError(10000, null, "删除组件失败！");
         }

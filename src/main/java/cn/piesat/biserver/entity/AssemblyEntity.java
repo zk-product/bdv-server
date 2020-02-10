@@ -11,16 +11,18 @@ import javax.validation.constraints.NotNull;
  * @date 2019/8/29 14:03
  */
 public class AssemblyEntity {
+    public interface ById{}
     /**
      * 主键id
      */
+    @NotBlank(groups = ById.class, message = "id不能为空")
     private String id;
 
     /**
      * 模板id（外键）
      */
     @NotBlank(message = "模板id不能为空")
-    private String templateId;
+    private String screenId;
 
     /**
      * 组件标题
@@ -117,12 +119,12 @@ public class AssemblyEntity {
         this.id = id == null ? null : id.trim();
     }
 
-    public String getTemplateId() {
-        return templateId;
+    public String getScreenId() {
+        return screenId;
     }
 
-    public void setTemplateId(String templateId) {
-        this.templateId = templateId == null ? null : templateId.trim();
+    public void setScreenId(String screenId) {
+        this.screenId = screenId;
     }
 
     public String getAssemblyTitle() {
