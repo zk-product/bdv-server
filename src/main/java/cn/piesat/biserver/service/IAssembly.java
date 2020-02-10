@@ -39,10 +39,10 @@ public interface IAssembly {
 
     /**
      * 根据模板id查询组件（优化设计）
-     * @param templateId
+     * @param screenId
      * @return
      */
-    List<AssemblyEntity> queryAssemblys(String templateId);
+    List<AssemblyEntity> queryAssemblys(String screenId);
 
 
     /**

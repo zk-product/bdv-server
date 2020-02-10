@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @date 2020/1/9 14:27
  */
 @Service
-public class AssemblyMAPImpl extends AssemblyImpl implements IAssemblyCurrency<AssemblyMapEntity> {
+public class AssemblyMapImpl extends AssemblyImpl implements IAssemblyCurrency<AssemblyMapEntity> {
     @Autowired
     private AssemblyMapMapper mapper;
     @Autowired
